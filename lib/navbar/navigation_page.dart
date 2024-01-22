@@ -28,7 +28,7 @@ class _NavigationPageState extends State<NavigationPage> {
     items = [
       NavModel(page: const HomePage(), navKey: homeNavKey),
       NavModel(page: const FavoritesPage(), navKey: transactionNavKey),
-      NavModel(page: const SettingsPage(), navKey: budgetNavKey),
+      NavModel(page: SettingsPage(), navKey: budgetNavKey),
       NavModel(page: const AboutPage(), navKey: profileNavKey),
     ];
   }

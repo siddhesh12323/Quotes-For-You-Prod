@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:share_plus/share_plus.dart';
 import '../local/favorites_manager.dart';
 
 class FavoritesPage extends StatelessWidget {
@@ -66,12 +67,21 @@ class FavoritesPage extends StatelessWidget {
                           backgroundColor: Colors.red,
                           icon: Icons.delete,
                         ),
+                        SlidableAction(
+                          onPressed: (context) async {
+                            await Share.share(
+                              'Check out this Quote:\n${quote.q.toString()}\nby ${quote.a.toString()}',
+                            );
+                          },
+                          label: 'Share',
+                          backgroundColor: Colors.blue,
+                          icon: Icons.share,
+                        ),
                       ],
                     ),
                     child: ListTile(
                       title: Text(quote.q.toString()),
                       subtitle: Text(quote.a.toString()),
-                      textColor: Colors.black,
                     ));
               },
             );
