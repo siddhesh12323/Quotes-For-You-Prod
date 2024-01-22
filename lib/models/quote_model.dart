@@ -35,4 +35,15 @@ class QuoteModel {
     data['h'] = this._h;
     return data;
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is QuoteModel &&
+          runtimeType == other.runtimeType &&
+          q == other.q &&
+          a == other.a;
+
+  @override
+  int get hashCode => q.hashCode ^ a.hashCode;
 }

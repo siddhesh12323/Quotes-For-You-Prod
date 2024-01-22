@@ -27,62 +27,67 @@ class FavoritesPage extends StatelessWidget {
               itemCount: favoritesManager.favorites.length,
               itemBuilder: (context, index) {
                 final quote = favoritesManager.favorites[index];
-                return Slidable(
-                    endActionPane: ActionPane(
-                      motion: const ScrollMotion(),
-                      children: [
-                        SlidableAction(
-                          onPressed: (context) {
-                            // show dialog for delete confirmation
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return Center(
-                                    child: AlertDialog(
-                                  title: const Text("Remove quote?"),
-                                  content: const Text(
-                                      "Are you sure you want to remove this quote from favorites?"),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text("Cancel")),
-                                    TextButton(
-                                      onPressed: () {
-                                        // delete quote from favorites
-                                        //! CHECK THIS!
-                                        favoritesManager
-                                            .removeFromFavorites(quote);
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text("OK"),
-                                    ),
-                                  ],
-                                ));
+                return Column(
+                  children: [
+                    Slidable(
+                        endActionPane: ActionPane(
+                          motion: const ScrollMotion(),
+                          children: [
+                            SlidableAction(
+                              onPressed: (context) {
+                                // show dialog for delete confirmation
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return Center(
+                                        child: AlertDialog(
+                                      title: const Text("Remove quote?"),
+                                      content: const Text(
+                                          "Are you sure you want to remove this quote from favorites?"),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text("Cancel")),
+                                        TextButton(
+                                          onPressed: () {
+                                            // delete quote from favorites
+                                            //! CHECK THIS!
+                                            favoritesManager
+                                                .removeFromFavorites(quote);
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text("OK"),
+                                        ),
+                                      ],
+                                    ));
+                                  },
+                                );
                               },
-                            );
-                          },
-                          label: 'Delete',
-                          backgroundColor: Colors.red,
-                          icon: Icons.delete,
+                              label: 'Delete',
+                              backgroundColor: Colors.red,
+                              icon: Icons.delete,
+                            ),
+                            SlidableAction(
+                              onPressed: (context) async {
+                                await Share.share(
+                                  'Check out this Quote:\n${quote.q.toString()}\nby ${quote.a.toString()}',
+                                );
+                              },
+                              label: 'Share',
+                              backgroundColor: Colors.blue,
+                              icon: Icons.share,
+                            ),
+                          ],
                         ),
-                        SlidableAction(
-                          onPressed: (context) async {
-                            await Share.share(
-                              'Check out this Quote:\n${quote.q.toString()}\nby ${quote.a.toString()}',
-                            );
-                          },
-                          label: 'Share',
-                          backgroundColor: Colors.blue,
-                          icon: Icons.share,
-                        ),
-                      ],
-                    ),
-                    child: ListTile(
-                      title: Text(quote.q.toString()),
-                      subtitle: Text(quote.a.toString()),
-                    ));
+                        child: ListTile(
+                          title: Text(quote.q.toString()),
+                          subtitle: Text(quote.a.toString()),
+                        )),
+                    const Divider(),
+                  ],
+                );
               },
             );
           }
