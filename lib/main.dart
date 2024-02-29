@@ -4,7 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:quotes_for_you/navbar/navigation_page.dart';
 import 'package:quotes_for_you/screens/about_page.dart';
 import 'package:quotes_for_you/screens/favorites_page.dart';
+import 'package:quotes_for_you/screens/login_page.dart';
 import 'package:quotes_for_you/screens/settings_page.dart';
+import 'package:quotes_for_you/screens/sign_up_page.dart';
 import 'local/favorites_manager.dart';
 import 'theme/theme_manager.dart';
 
@@ -35,11 +37,15 @@ class MainApp extends StatelessWidget {
               colorSchemeSeed: themeManager.chosenColor,
               fontFamily: themeManager.chosenFont),
           routes: {
-            '/': (context) => const NavigationPage(),
+            '/navigation': (context) => const NavigationPage(),
             '/favorites': (context) => const FavoritesPage(),
             '/settings': (context) => SettingsPage(),
             '/about': (context) => const AboutPage(),
+            '/shareasimage': (context) => const AboutPage(),
+            '/login': (context) => const LoginPage(),
+            '/signup': (context) => const SignUpPage(),
           },
+          home: const LoginPage(),
         );
       },
     );
