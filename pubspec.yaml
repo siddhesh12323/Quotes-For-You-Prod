@@ -8,6 +8,8 @@ environment:
 
 dependencies:
   dynamic_color: ^1.6.9
+  firebase_auth: ^4.17.8
+  firebase_core: ^2.27.0
   flutter:
     sdk: flutter
   flutter_slidable: ^3.0.1

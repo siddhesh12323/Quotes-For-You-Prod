@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:quotes_for_you/auth/auth_service.dart';
 import 'package:quotes_for_you/widgets/quit_confirmation_dialog.dart';
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+  final void Function()? toggleLoginOrSignUp;
+  const SignUpPage({super.key, required this.toggleLoginOrSignUp});
 
   @override
   State<SignUpPage> createState() => _SignUpPageState();
@@ -14,6 +16,38 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController confirmPasswordController = TextEditingController();
   bool isPasswordVisible = false;
   bool isConfirmPasswordVisible = false;
+
+  void signUp(BuildContext context) async {
+    // Sign up with email and password
+    try {
+      await AuthService().signUp(emailController.text, passwordController.text);
+    } catch (e) {
+      // ignore: use_build_context_synchronously
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Error'),
+              content: Text("Something went wrong! ${e.toString()}"),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('OK')),
+              ],
+            );
+          });
+    }
+  }
+
+  bool isValidEmail(String email) {
+    // Regular expression for a simple email validation
+    final emailRegex =
+        RegExp(r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+
+    return emailRegex.hasMatch(email);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,6 +167,26 @@ class _SignUpPageState extends State<SignUpPage> {
                 const SizedBox(height: 20),
                 InkWell(
                   onTap: () {
+                    if (passwordController.text !=
+                        confirmPasswordController.text) {
+                      // show a snackbar
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('Passwords do not match!'),
+                      ));
+                    } else if (isValidEmail(emailController.text) == false) {
+                      // show a snackbar
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('Please enter a valid email!'),
+                      ));
+                    } else if (passwordController.text.length < 8) {
+                      // show a snackbar
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content:
+                            Text('Password must be at least 8 characters!'),
+                      ));
+                    } else {
+                      signUp(context);
+                    }
                     Navigator.pushNamed(context, '/navigation');
                   },
                   child: Container(
@@ -166,7 +220,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     const SizedBox(width: 5),
                     InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, '/login');
+                        widget.toggleLoginOrSignUp!();
                       },
                       child: Text(
                         'Login',
