@@ -4,7 +4,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:share_plus/share_plus.dart';
-import '../local/favorites_manager.dart';
+import '../local_and_firestore/favorites_manager.dart';
 import '../models/quote_model.dart';
 import '../theme/theme_manager.dart';
 

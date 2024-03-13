@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:share_plus/share_plus.dart';
-import '../local/favorites_manager.dart';
+import '../local_and_firestore/favorites_manager.dart';
 
 class FavoritesPage extends StatelessWidget {
   const FavoritesPage({super.key});

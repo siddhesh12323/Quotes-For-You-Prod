@@ -17,7 +17,7 @@ class _SignUpPageState extends State<SignUpPage> {
   bool isPasswordVisible = false;
   bool isConfirmPasswordVisible = false;
 
-  void signUp(BuildContext context) async {
+  Future<void> signUp(BuildContext context) async {
     // Sign up with email and password
     try {
       await AuthService().signUp(emailController.text, passwordController.text);
@@ -166,7 +166,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 const SizedBox(height: 20),
                 InkWell(
-                  onTap: () {
+                  onTap: () async {
                     if (passwordController.text !=
                         confirmPasswordController.text) {
                       // show a snackbar
@@ -185,9 +185,9 @@ class _SignUpPageState extends State<SignUpPage> {
                             Text('Password must be at least 8 characters!'),
                       ));
                     } else {
-                      signUp(context);
+                      await signUp(context);
+                      Navigator.pushNamed(context, '/verifyemail');
                     }
-                    Navigator.pushNamed(context, '/navigation');
                   },
                   child: Container(
                     width: 100,
